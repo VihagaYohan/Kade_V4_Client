@@ -7,16 +7,26 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   Animated,
+  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // component
-import {Container, LoadingCompenent, Carousel} from '../components';
+import {
+  Container,
+  LoadingCompenent,
+  Carousel,
+  Loading,
+  HelperText,
+} from '../components';
 
 // dummuy data
 import {shopList} from '../constants/dummyData';
 
 import {dummyData, SIZES, COLORS, normalizeSize} from '../constants/index';
+
+// API
+import categoriesAPI from '../api/categories';
 
 // carousel items
 const carouselItems = [
@@ -34,33 +44,47 @@ const carouselItems = [
   },
 ];
 
-const {width, height} = SIZES;
+const {width, height} = SIZES; // screen height and width
 
 const ProductCategoryScreen = ({navigation, route}) => {
-  const scrollX = useRef(new Animated.Value(0)).current;
+  const [categories, setCategories] = useState([]); // product categories
+  const [loading, setLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
 
-  useEffect(() => {}, []);
+  // get product categories
+  const getProductCategories = async () => {
+    const result = await categoriesAPI.getAllCategories();
+    if (result == null) {
+      setLoading(false);
+      setFailed(true);
+    }
+    const {data} = result.data; // get data from result object
+    setCategories(data); // setting product categories array
+  };
+
+  useEffect(() => {
+    getProductCategories();
+  }, []);
+
+  if (loading) return <Loading />;
+  if (failed)
+    return <HelperText>Unable to load data. Please try again</HelperText>;
 
   return (
-    <Container
-      style={{
-        paddingHorizontal: normalizeSize(10),
-        paddingVertical: normalizeSize(10),
-        backgroundColor: COLORS.white,
-        borderWidth: 1,
-      }}>
+    <Container style={styles.container}>
       {/* carousel */}
       <Carousel />
+
+      {/* product categories */}
     </Container>
   );
 };
 
 const styles = StyleSheet.create({
-  loadingContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: SIZES.width,
-    height: SIZES.height,
+  container: {
+    paddingHorizontal: normalizeSize(10),
+    paddingVertical: normalizeSize(10),
+    backgroundColor: COLORS.white,
   },
 });
 

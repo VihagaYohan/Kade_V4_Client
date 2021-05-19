@@ -5,6 +5,8 @@ import Icon from './Icon';
 import AppTextInput from './AppTextInput';
 import AppText from './AppText';
 import Carousel from './Carousel';
+import Loading from './Loading'
+import HelperText from './HelperText'
 
 import ErrorMessage from './Form/ErrorMessage';
 
@@ -17,4 +19,6 @@ export {
   AppText,
   ErrorMessage,
   Carousel,
+  Loading,
+  HelperText
 };
