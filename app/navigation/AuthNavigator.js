@@ -7,6 +7,9 @@ import LoginScreen from '../screens/AuthScreens/LoginScreen';
 import RegisterScreen from '../screens/AuthScreens/RegisterScreen';
 import ForgotPasswordScreen from '../screens/AuthScreens/ForgotPasswordScreen';
 
+// navigator
+import AppNavigator from './AppNavigator';
+
 const Stack = createStackNavigator();
 
 const StackScreen = () => {
@@ -19,6 +22,7 @@ const StackScreen = () => {
         name="ForgotPasswordScreen"
         component={ForgotPasswordScreen}
       />
+      <Stack.Screen name="AppNavigator" component={AppNavigator} />
     </Stack.Navigator>
   );
 };

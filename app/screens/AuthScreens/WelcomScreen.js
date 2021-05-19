@@ -9,20 +9,28 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Modal,
+  ActivityIndicator,
 } from 'react-native';
 import {Formik} from 'formik';
+import * as Yup from 'yup';
 
 // components
-import {Container, AppTextInput} from '../../components';
+import {Container, AppTextInput, AppText, ErrorMessage} from '../../components';
+import routes from '../../navigation/routes';
 
 // constants
 import {COLORS, normalizeSize, SIZES} from '../../constants';
 import {TextInput} from 'react-native-gesture-handler';
 
+// form validation schema
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required().email().label('E-mail'),
+  password: Yup.string().required().min(4).label('Password'),
+});
+
 const WelcomeScreen = ({navigation, route}) => {
-  const [email, setEmail] = useState(''); // sets email
-  const [password, setPassword] = useState(''); // sets password
-  const [visible, setVisible] = useState(false); // sets password visiblilty
+  const [visible, setVisible] = useState(false); // sets modal visiblilty
 
   return (
     <Container style={styles.container}>
@@ -30,14 +38,10 @@ const WelcomeScreen = ({navigation, route}) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.mainContainer}>
-        {/* secion 1 - contains logo & tag line */}
+        {/* secion 1 - contains logo */}
         <View style={styles.section1}>
           {/* logo container */}
           <View style={styles.logoContainer}></View>
-          {/* tag line */}
-          <View style={styles.welcomeTextContainer}>
-            <Text style={styles.welcomeText}>Your Market Place</Text>
-          </View>
         </View>
 
         {/* section 2 - contains login form and other options such as forgot password, sign up and login as guest */}
@@ -46,8 +50,19 @@ const WelcomeScreen = ({navigation, route}) => {
           <View style={styles.loginContainer}>
             <Formik
               initialValues={{email: '', password: ''}}
-              onSubmit={values => console.log(values)}>
-              {({handleChange, handleSubmit}) => (
+              onSubmit={values => {
+                //setVisible(true);
+                console.log(values);
+                navigation.navigate(routes.App_Navigator);
+              }}
+              validationSchema={validationSchema}>
+              {({
+                handleChange,
+                handleSubmit,
+                errors,
+                setFieldTouched,
+                touched,
+              }) => (
                 <React.Fragment>
                   {/* email field */}
                   <View style={styles.textInputContainer}>
@@ -61,8 +76,14 @@ const WelcomeScreen = ({navigation, route}) => {
                         width: '100%',
                       }}
                       placeholder="Enter your email"
+                      autoCapitalize="none"
+                      keyboardType="email-address"
+                      textContentType="emailAddress"
+                      onChangeText={handleChange('email')}
+                      onBlur={() => setFieldTouched('email')}
                     />
                   </View>
+                  <ErrorMessage error={errors.email} visible={touched.email} />
 
                   {/* password field */}
                   <View style={styles.textInputContainer}>
@@ -76,21 +97,90 @@ const WelcomeScreen = ({navigation, route}) => {
                         width: '100%',
                       }}
                       placeholder="Password"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry
+                      textContentType="password"
+                      onChangeText={handleChange('password')}
+                      onblue={() => setFieldTouched('password')}
                     />
                   </View>
+                  <ErrorMessage
+                    error={errors.password}
+                    visible={touched.password}
+                  />
 
                   {/* login button */}
                   <TouchableOpacity
                     style={styles.loginButton}
-                    onPress={() => alert('login button pressed')}>
+                    onPress={handleSubmit}>
                     <Text style={styles.loginButtonText}>Login</Text>
                   </TouchableOpacity>
                 </React.Fragment>
               )}
             </Formik>
+
+            {/* other options container. this contains gues login, sign-up and forgot password */}
+            <View style={styles.otherOptionsContainer}>
+              {/* continue as guest */}
+              <View style={styles.guestLoginContainer}>
+                <Text style={styles.guestLogin}>Continue as Guest</Text>
+              </View>
+            </View>
+
+            {/* sign up */}
+            <View style={styles.signUpContainer}>
+              <Text style={styles.signUpSection1}>Don't have an account?</Text>
+              <Text
+                style={styles.signUpSection2}
+                onPress={() => alert('Sign up clicked')}>
+                Sign up
+              </Text>
+            </View>
+
+            {/* forgot password */}
+            <View style={styles.forgotPasswordContainer}>
+              <Text
+                style={styles.forgotPassword}
+                onPress={() => alert('forgot password clicked')}>
+                Forgot Password ?
+              </Text>
+            </View>
           </View>
         </View>
       </KeyboardAvoidingView>
+
+      {/* Modal -  shows activity loader */}
+      <Modal
+        visible={visible}
+        animationType="fade"
+        transparent
+        style={{
+          borderWidth: 1,
+        }}>
+        {/* wrraper view  component */}
+        <View
+          style={{
+            flex: 1,
+            borderWidth: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {/* inner-wrraper */}
+          <View
+            style={{
+              width: normalizeSize(100),
+              height: normalizeSize(100),
+              backgroundColor: COLORS.secondary,
+              borderRadius: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {/* activity indicator */}
+            <ActivityIndicator animating color={COLORS.primary} size="large" />
+          </View>
+        </View>
+      </Modal>
     </Container>
   );
 };
@@ -101,30 +191,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: '4%',
     paddingVertical: '2%',
-    borderWidth: 1,
   },
   mainContainer: {
     width: '96%',
     height: '98%',
-    borderWidth: 1,
-    backgroundColor: 'red',
   },
   // section 1 stylings
   section1: {
     width: '100%',
     height: '25%',
-    backgroundColor: 'yellow',
   },
-  logoContainer: {
-    flex: 3,
-    borderWidth: 1,
-  },
-  welcomeTextContainer: {
-    flex: 1,
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  logoContainer: {},
+
   welcomeText: {
     fontFamily: 'Poppins-Medium',
     fontSize: normalizeSize(18),
@@ -134,22 +212,21 @@ const styles = StyleSheet.create({
   section2: {
     width: '100%',
     height: '75%',
-    backgroundColor: 'white',
   },
   loginContainer: {
     width: '100%',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
   },
   textInputContainer: {
     flexDirection: 'row',
     width: '100%',
     borderWidth: 1,
-    marginBottom: normalizeSize(20),
     borderRadius: normalizeSize(20),
     paddingHorizontal: normalizeSize(5),
+    marginBottom: normalizeSize(20),
+    borderColor: COLORS.gray,
   },
   loginButton: {
     paddingHorizontal: normalizeSize(30),
@@ -166,12 +243,47 @@ const styles = StyleSheet.create({
     shadowRadius: 0.5,
 
     // shadow properties for android
-    elevation: 5,
+    elevation: 10,
   },
   loginButtonText: {
     fontFamily: 'Poppins-Light',
     fontSize: normalizeSize(16),
     color: COLORS.white,
+  },
+  otherOptionsContainer: {
+    marginTop: normalizeSize(20),
+  },
+  guestLoginContainer: {
+    borderBottomWidth: 2,
+    borderBottomColor: COLORS.primary,
+  },
+  guestLogin: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: normalizeSize(14),
+    color: COLORS.primary,
+  },
+  signUpContainer: {
+    flexDirection: 'row',
+    marginTop: normalizeSize(20),
+  },
+  signUpSection1: {
+    marginRight: normalizeSize(10),
+    color: COLORS.gray,
+    fontFamily: 'Poppins-Medium',
+    fontSize: normalizeSize(14),
+  },
+  signUpSection2: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: normalizeSize(14),
+    color: COLORS.primary,
+  },
+  forgotPasswordContainer: {
+    marginTop: normalizeSize(20),
+  },
+  forgotPassword: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: normalizeSize(14),
+    color: COLORS.primary,
   },
 });
 

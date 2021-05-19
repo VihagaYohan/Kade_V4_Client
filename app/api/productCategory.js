@@ -1,8 +1,2 @@
-import Client from './client';
+import client from './client'
 
-// get all product categories
-const getAllCatgories = () => Client.get('api/categories');
-
-export default {
-  getAllProductCategory,
-};

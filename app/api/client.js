@@ -1,7 +1,7 @@
-import axios from 'axios'
+import {create} from 'apisauce';
 
-const apiClient = axios.create({
-  baseURL: 'https://kade-backend.herokuapp.com/',
-})
+const apiClient = create({
+  baseURL: 'http://192.168.1.5:8000',
+});
 
 export default apiClient;
