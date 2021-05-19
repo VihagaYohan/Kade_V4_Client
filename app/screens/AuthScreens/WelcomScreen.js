@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // components
 import {Container, AppTextInput, AppText, ErrorMessage} from '../../components';
@@ -23,6 +24,9 @@ import routes from '../../navigation/routes';
 import {COLORS, normalizeSize, SIZES} from '../../constants';
 import {TextInput} from 'react-native-gesture-handler';
 
+// API
+import authAPI from '../../api/auth';
+
 // form validation schema
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label('E-mail'),
@@ -31,6 +35,36 @@ const validationSchema = Yup.object().shape({
 
 const WelcomeScreen = ({navigation, route}) => {
   const [visible, setVisible] = useState(false); // sets modal visiblilty
+
+  // handle user login
+  const handleLogin = async ({email, password}) => {
+    // enable model
+    setVisible(true);
+    const result = await authAPI.login(email, password);
+    if (result == null) setVisible(false);
+    // check for errors
+    if (!result.ok) {
+      alert('Please check login credentials');
+      setVisible(false); // disable model
+      return;
+    }
+
+    // disable model
+    setVisible(false);
+
+    const data = result.data;
+    const token = JSON.stringify(data.token);
+    console.log(`token : ${token}`); // development purpose
+
+    // saving login token on async-storage
+    try {
+      await AsyncStorage.setItem('token', token);
+    } catch (error) {
+      console.log(error);
+    }
+
+    navigation.navigate(routes.App_Navigator);
+  };
 
   return (
     <Container style={styles.container}>
@@ -51,9 +85,7 @@ const WelcomeScreen = ({navigation, route}) => {
             <Formik
               initialValues={{email: '', password: ''}}
               onSubmit={values => {
-                //setVisible(true);
-                console.log(values);
-                navigation.navigate(routes.App_Navigator);
+                handleLogin(values);
               }}
               validationSchema={validationSchema}>
               {({
@@ -124,7 +156,11 @@ const WelcomeScreen = ({navigation, route}) => {
             <View style={styles.otherOptionsContainer}>
               {/* continue as guest */}
               <View style={styles.guestLoginContainer}>
-                <Text style={styles.guestLogin}>Continue as Guest</Text>
+                <Text
+                  style={styles.guestLogin}
+                  onPress={() => navigation.navigate(routes.App_Navigator)}>
+                  Continue as Guest
+                </Text>
               </View>
             </View>
 
