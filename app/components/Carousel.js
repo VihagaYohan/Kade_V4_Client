@@ -25,7 +25,6 @@ const carouselItems = [
 const Carousel = () => {
   const scrollX = useRef(new Animated.Value(0)).current; // to store current scroll position
 
-
   const CarouselItem = ({item, index}) => {
     const inputRange = [
       (index - 1) * width,
@@ -70,9 +69,10 @@ const Carousel = () => {
 const styles = StyleSheet.create({
   cardContainer: {
     width: SIZES.width - normalizeSize(20),
-    height: SIZES.width / 2,
+    height: SIZES.height / 3,
     borderRadius: 10,
     overflow: 'hidden',
+    //marginBottom: normalizeSize(10),
   },
 });
 
