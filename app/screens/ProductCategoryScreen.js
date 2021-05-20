@@ -22,8 +22,8 @@ import {
   HelperText,
 } from '../components';
 
-// dummuy data
-import {shopList} from '../constants/dummyData';
+// routes
+import routes from '../navigation/routes';
 
 import {dummyData, SIZES, COLORS, normalizeSize} from '../constants/index';
 
@@ -82,7 +82,12 @@ const ProductCategoryScreen = ({navigation, route}) => {
           borderRadius: 10,
           overflow: 'hidden',
         }}
-        onPress={() => alert(item._id)}>
+        onPress={() =>
+          navigation.navigate(routes.Product_Listing, {
+            categoryId: item._id,
+            name: item.name,
+          })
+        }>
         {/* product category image container */}
         <View style={styles.categoryImageContainer}>
           <Image
