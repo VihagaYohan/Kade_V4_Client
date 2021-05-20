@@ -6,8 +6,10 @@ import {
   Image,
   FlatList,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   Animated,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -66,6 +68,44 @@ const ProductCategoryScreen = ({navigation, route}) => {
     getProductCategories();
   }, []);
 
+  // product category item
+  const CategoryItem = ({item, index}) => {
+    return (
+      <TouchableOpacity
+        style={{
+          width: (width - normalizeSize(20)) / 2 - normalizeSize(10),
+          height: (width - normalizeSize(20)) * 0.6,
+          marginBottom: normalizeSize(20),
+          marginRight: index % 2 ? 0 : normalizeSize(5),
+          marginLeft: index % 2 ? normalizeSize(15) : 0,
+          marginTop: index % 2 ? normalizeSize(20) : 0,
+          borderRadius: 10,
+          overflow: 'hidden',
+        }}
+        onPress={() => alert(item._id)}>
+        {/* product category image container */}
+        <View style={styles.categoryImageContainer}>
+          <Image
+            style={styles.categoryImage}
+            source={{uri: item.photo}}
+            resizeMode="contain"
+          />
+        </View>
+
+        {/* product category name */}
+        <View style={styles.categoryNameContainer}>
+          <Text
+            style={styles.categoryName}
+            adjustsFontSizeToFit={true}
+            minimumFontScale={0.5}
+            numberOfLines={2}>
+            {item.name}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   if (loading) return <Loading />;
   if (failed)
     return <HelperText>Unable to load data. Please try again</HelperText>;
@@ -73,9 +113,21 @@ const ProductCategoryScreen = ({navigation, route}) => {
   return (
     <Container style={styles.container}>
       {/* carousel */}
-      <Carousel />
+      <View style={styles.carouselContainer}>
+        <Carousel />
+      </View>
 
       {/* product categories */}
+      <View style={styles.productCategoryCotnainer}>
+        <FlatList
+          data={categories}
+          contentContainerStyle={{paddingTop: normalizeSize(5)}}
+          keyExtractor={i => i}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          renderItem={CategoryItem}
+        />
+      </View>
     </Container>
   );
 };
@@ -85,6 +137,36 @@ const styles = StyleSheet.create({
     paddingHorizontal: normalizeSize(10),
     paddingVertical: normalizeSize(10),
     backgroundColor: COLORS.white,
+  },
+  carouselContainer: {
+    width: width - normalizeSize(20),
+    height: height / 3,
+  },
+  productCategoryCotnainer: {
+    flex: 1,
+  },
+  // category item styles
+  categoryImageContainer: {
+    width: '100%',
+    height: '80%',
+    backgroundColor: COLORS.gray1,
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  categoryImage: {
+    flex: 1,
+  },
+  categoryNameContainer: {
+    width: '100%',
+    height: '20%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.secondary,
+  },
+  categoryName: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: normalizeSize(16),
+    color: COLORS.primary,
   },
 });
 
