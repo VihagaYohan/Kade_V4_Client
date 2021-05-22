@@ -10,7 +10,6 @@ import {
   ImageBackground,
   Platform,
 } from 'react-native';
-import {Table, Row, Rows} from 'react-native-table-component';
 import Unorderedlist from 'react-native-unordered-list';
 
 // components
@@ -45,10 +44,8 @@ const y = (contentContainerHeight * normalizeSize(50)) / normalizeSize(100);
 const ProductDetailsScreen = ({navigation, route}) => {
   const {productId, url} = route.params; // get product id
   const [product, setProduct] = useState(); // product categories
-  const [productDescription, setProductDescription] = useState(); // product description
   const [loading, setLoading] = useState(false); // loading
   const [failed, setFailed] = useState(false); // failed to get data from backend
-  const [quantity, setQuantity] = useState(); // quantity
 
   // get product by product ID
   const getProduct = async id => {
@@ -65,17 +62,10 @@ const ProductDetailsScreen = ({navigation, route}) => {
 
       console.log(data.data);
       setProduct(data.data);
-      const descriptionList = product.description.split('\n');
-      setProductDescription(descriptionList);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  };
-
-  // getting user quantity from child component (Quantity component)
-  const getQuantity = quantity => {
-    setQuantity(quantity);
   };
 
   // useEffect
@@ -160,7 +150,7 @@ const ProductDetailsScreen = ({navigation, route}) => {
               marginTop: normalizeSize(10),
             }}
             showsVerticalScrollIndicator={false}>
-            {productDescription.map(i => {
+            {product.description.split('\n').map(i => {
               return (
                 <Unorderedlist
                   color={COLORS.primary}
