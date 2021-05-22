@@ -44,10 +44,8 @@ const y = (contentContainerHeight * normalizeSize(50)) / normalizeSize(100);
 const ProductDetailsScreen = ({navigation, route}) => {
   const {productId, url} = route.params; // get product id
   const [product, setProduct] = useState(); // product categories
-  const [productDescription, setProductDescription] = useState(); // product description
   const [loading, setLoading] = useState(false); // loading
   const [failed, setFailed] = useState(false); // failed to get data from backend
-  const [quantity, setQuantity] = useState(); // quantity
 
   // get product by product ID
   const getProduct = async id => {
