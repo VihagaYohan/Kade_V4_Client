@@ -10,7 +10,6 @@ import {
   ImageBackground,
   Platform,
 } from 'react-native';
-import {Table, Row, Rows} from 'react-native-table-component';
 import Unorderedlist from 'react-native-unordered-list';
 
 // components
@@ -71,11 +70,6 @@ const ProductDetailsScreen = ({navigation, route}) => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  // getting user quantity from child component (Quantity component)
-  const getQuantity = quantity => {
-    setQuantity(quantity);
   };
 
   // useEffect
