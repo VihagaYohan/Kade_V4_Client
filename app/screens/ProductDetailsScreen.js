@@ -11,6 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import Unorderedlist from 'react-native-unordered-list';
+import {useDispatch, useSelector} from 'react-redux';
 
 // components
 import {
@@ -27,6 +28,9 @@ import {
 // constants
 import {SIZES, COLORS, normalizeSize} from '../constants';
 
+// Redux
+import {addItemToCart} from '../store/actions/cart';
+
 // API
 import productAPI from '../api/products';
 import baseURL from '../api/baseURL';
@@ -38,14 +42,18 @@ import axios from 'axios';
 const bannerHeight = height / 3; //product image container height
 const contentContainerHeight = height - bannerHeight; // content container height. this contain product name,shop name, shop image, product description..etc
 
-const x = (contentContainerHeight * normalizeSize(30)) / normalizeSize(100);
-const y = (contentContainerHeight * normalizeSize(50)) / normalizeSize(100);
 
 const ProductDetailsScreen = ({navigation, route}) => {
   const {productId, url} = route.params; // get product id
   const [product, setProduct] = useState(); // product categories
   const [loading, setLoading] = useState(false); // loading
   const [failed, setFailed] = useState(false); // failed to get data from backend
+
+  // redux store
+  const data = useSelector(state => state);
+  console.log(data);
+
+  const dispatch = useDispatch();
 
   // get product by product ID
   const getProduct = async id => {
@@ -173,10 +181,23 @@ const ProductDetailsScreen = ({navigation, route}) => {
           </View>
 
           <View style={styles.addToCartContainer}>
-            <View style={styles.addToCartInnerContainer}>
+            <TouchableOpacity
+              style={styles.addToCartInnerContainer}
+              onPress={() =>
+                dispatch(
+                  addItemToCart({
+                    productId: product._id,
+                    photo: product.photo,
+                    productName: product.productName,
+                    quantity: 1,
+                    unitPrice: product.price,
+                    lineTotal: product.price,
+                  }),
+                )
+              }>
               <Icon name="shopping-cart" size={20} color={COLORS.primary} />
               <AppText style={styles.addToCartText}>Add To Cart</AppText>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
