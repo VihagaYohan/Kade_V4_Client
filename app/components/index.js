@@ -4,11 +4,15 @@ import Search from './Search';
 import Icon from './Icon';
 import AppTextInput from './AppTextInput';
 import AppText from './AppText';
+import AppButton from './AppButton';
 import Carousel from './Carousel';
-import Loading from './Loading'
-import HelperText from './HelperText'
+import Loading from './Loading';
+import HelperText from './HelperText';
+import Quantity from './Quantity';
 
 import ErrorMessage from './Form/ErrorMessage';
+
+import IoniconIcon from './Icons/Ionicon';
 
 export {
   Container,
@@ -17,8 +21,11 @@ export {
   LoadingCompenent,
   AppTextInput,
   AppText,
+  AppButton,
   ErrorMessage,
   Carousel,
   Loading,
-  HelperText
+  HelperText,
+  Quantity,
+  IoniconIcon,
 };

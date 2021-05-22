@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 // constants
-import {COLORS} from '../constants/index';
+import {COLORS} from '../../constants/index';
 
 const IconComponent = ({
   name,

@@ -19,6 +19,7 @@ import {SIZES, COLORS, normalizeSize} from '../constants';
 import productsAPI from '../api/products';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import routes from '../navigation/routes';
 
 const {width, height} = SIZES;
 
@@ -46,7 +47,6 @@ const ProductListingScreen = ({navigation, route}) => {
 
   useEffect(() => {
     getProducts(categoryId);
-    console.log(products);
   }, []);
 
   // product item
@@ -56,7 +56,7 @@ const ProductListingScreen = ({navigation, route}) => {
       <TouchableOpacity
         style={{
           width: (itemWidth - normalizeSize(10)) / 2,
-          height: normalizeSize(250),
+          height: normalizeSize(300),
           marginLeft: index % 2 ? normalizeSize(10) : 0,
           marginBottom: normalizeSize(20),
           borderRadius: normalizeSize(15),
@@ -68,7 +68,12 @@ const ProductListingScreen = ({navigation, route}) => {
           shadowOpacity: 0.5,
           shadowRadius: 5,
         }}
-        onPress={() => alert(item.productName)}>
+        onPress={() =>
+          navigation.navigate(routes.Product_Details, {
+            productId: item._id,
+            url: item.photo,
+          })
+        }>
         {/* image container */}
         <View style={styles.imageContainer}>
           <Image
@@ -78,7 +83,7 @@ const ProductListingScreen = ({navigation, route}) => {
           />
         </View>
 
-        {/* content container */}
+        {/* content container - this contains product name, shop name and the price*/}
         <View style={styles.contentContainer}>
           <Text style={styles.productName} adjustsFontSizeToFit={true}>
             {item.productName}
@@ -86,6 +91,7 @@ const ProductListingScreen = ({navigation, route}) => {
           <Text style={styles.shopName} numberOfLines={2}>
             {item.shopId.name}
           </Text>
+          <Text style={styles.price}>Rs. {item.price.toFixed(2)}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -96,17 +102,17 @@ const ProductListingScreen = ({navigation, route}) => {
     return <HelperText>Unable to load data. Please try again</HelperText>;
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <Container style={{flex: 1,}}>
       <FlatList
         data={products}
-        keyExtractor={i => i}
+        keyExtractor={i => i._id}
         numColumns={2}
         showsVerticalScrollIndicator={false}
         renderItem={({item, index}) => (
           <ProductItem item={item} index={index} />
         )}
       />
-    </ScrollView>
+    </Container>
   );
 };
 
@@ -131,14 +137,20 @@ const styles = StyleSheet.create({
   },
   productName: {
     fontFamily: 'Poppins-Medium',
-    fontSize: normalizeSize(16),
+    fontSize: normalizeSize(14),
     color: COLORS.secondary,
     textAlign: 'center',
   },
   shopName: {
     fontFamily: 'Poppins-Medium',
-    fontSize: normalizeSize(16),
+    fontSize: normalizeSize(14),
     color: COLORS.primary,
+    textAlign: 'center',
+  },
+  price: {
+    fontFamily: 'Poppins-Bold',
+    fontSize: normalizeSize(14),
+    color: COLORS.secondary,
     textAlign: 'center',
   },
 });

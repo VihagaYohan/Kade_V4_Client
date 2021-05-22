@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 // screen
 import ProductCategoryScreen from '../screens/ProductCategoryScreen';
 import ProductListingScreen from '../screens/ProductListingScreen';
+import ProductDetailsScreen from '../screens/ProductDetailsScreen';
 import ShopListScreen from '../screens/ShopListScreen';
 
 const Stack = createStackNavigator();
@@ -19,6 +20,11 @@ const StackScreen = () => {
         options={({route}) => ({title: route.params.name, headerShown: true})}
         name="ProductListingScreen"
         component={ProductListingScreen}
+      />
+      <Stack.Screen
+        options={({route}) => ({title: route.params.name, headerShown: false})}
+        name="ProductDetailsScreen"
+        component={ProductDetailsScreen}
       />
       <Stack.Screen name="ShopListScreen" component={ShopListScreen} />
     </Stack.Navigator>
