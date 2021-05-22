@@ -60,6 +60,7 @@ const ProductCategoryScreen = ({navigation, route}) => {
       setLoading(false);
       setFailed(true);
     }
+    console.log(result);
     const {data} = result.data; // get data from result object
     setCategories(data); // setting product categories array
   };
