@@ -64,8 +64,6 @@ const ProductDetailsScreen = ({navigation, route}) => {
 
       console.log(data.data);
       setProduct(data.data);
-      const descriptionList = product.description.split('\n');
-      setProductDescription(descriptionList);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -154,7 +152,7 @@ const ProductDetailsScreen = ({navigation, route}) => {
               marginTop: normalizeSize(10),
             }}
             showsVerticalScrollIndicator={false}>
-            {productDescription.map(i => {
+            {product.description.split('\n').map(i => {
               return (
                 <Unorderedlist
                   color={COLORS.primary}
