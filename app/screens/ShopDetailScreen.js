@@ -101,34 +101,21 @@ const ShopDetailScreen = ({navigation, route}) => {
       {/* shop details */}
       <ScrollView style={styles.contentContainer}>
         {/* shop name */}
-        <View style={{borderBottomWidth: 1, borderBottomColor: COLORS.gray}}>
-          <AppText
-            style={{
-              margin: normalizeSize(20),
-              fontFamily: 'Poppins-SemiBold',
-              fontSize: normalizeSize(20),
-            }}>
-            {shop.name}
-          </AppText>
+        <View style={styles.shopNameContainer}>
+          <AppText style={styles.shopName}>{shop.name}</AppText>
         </View>
 
         {/* shop address*/}
-        <View
-          style={{
-            flexDirection: 'row',
-            marginHorizontal: normalizeSize(10),
-            paddingVertical: normalizeSize(20),
-          }}>
-          <Icon
-            name="map-marker"
-            size={normalizeSize(30)}
-            color={COLORS.primary}
-            style={{marginRight: normalizeSize(20)}}
-          />
-          <View
-            style={{
-              width: '90%',
-            }}>
+        <View style={styles.textContentContainer}>
+          <View style={styles.iconContainer}>
+            <Icon
+              name="map-marker"
+              size={normalizeSize(30)}
+              color={COLORS.primary}
+            />
+          </View>
+
+          <View style={styles.textContent}>
             <AppText
               style={{
                 fontFamily: 'Poppins-Medium',
@@ -141,23 +128,16 @@ const ShopDetailScreen = ({navigation, route}) => {
         </View>
 
         {/* shop email address*/}
-        <View
-          style={{
-            flexDirection: 'row',
+        <View style={styles.textContentContainer}>
+          <View style={styles.iconContainer}>
+            <Icon
+              name="envelope-o"
+              size={normalizeSize(30)}
+              color={COLORS.primary}
+            />
+          </View>
 
-            marginHorizontal: normalizeSize(10),
-            paddingVertical: normalizeSize(20),
-          }}>
-          <Icon
-            name="envelope-o"
-            size={normalizeSize(30)}
-            color={COLORS.primary}
-            style={{marginRight: normalizeSize(20)}}
-          />
-          <View
-            style={{
-              width: '90%',
-            }}>
+          <View style={styles.textContent}>
             <AppText
               style={{
                 fontFamily: 'Poppins-Medium',
@@ -170,23 +150,16 @@ const ShopDetailScreen = ({navigation, route}) => {
         </View>
 
         {/* shop phone number */}
-        <View
-          style={{
-            flexDirection: 'row',
+        <View style={styles.textContentContainer}>
+          <View style={styles.iconContainer}>
+            <Icon
+              name="phone"
+              size={normalizeSize(30)}
+              color={COLORS.primary}
+            />
+          </View>
 
-            marginHorizontal: normalizeSize(10),
-            paddingVertical: normalizeSize(20),
-          }}>
-          <Icon
-            name="phone"
-            size={normalizeSize(30)}
-            color={COLORS.primary}
-            style={{marginRight: normalizeSize(20)}}
-          />
-          <View
-            style={{
-              width: '90%',
-            }}>
+          <View style={styles.textContent}>
             {shop.phoneNumber.map(i => (
               <AppText
                 style={{
@@ -240,6 +213,29 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '70%',
     //paddingHorizontal: normalizeSize(10),
+  },
+  shopNameContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.gray,
+  },
+  shopName: {
+    margin: normalizeSize(20),
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: normalizeSize(20),
+  },
+  textContentContainer: {
+    flexDirection: 'row',
+    marginHorizontal: normalizeSize(10),
+    paddingVertical: normalizeSize(20),
+  },
+  iconContainer: {
+    width: '15%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: normalizeSize(10),
+  },
+  textContent: {
+    width: '70%',
   },
 });
 
