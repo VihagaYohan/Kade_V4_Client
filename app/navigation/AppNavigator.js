@@ -7,6 +7,7 @@ import ProductListingScreen from '../screens/ProductListingScreen';
 import ProductDetailsScreen from '../screens/ProductDetailsScreen';
 import ShopListScreen from '../screens/ShopListScreen';
 import ShopScreen from '../screens/ShopScreen';
+import ShopDetailScreen from '../screens/ShopDetailScreen'
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,7 @@ const StackScreen = () => {
       />
       <Stack.Screen name="ShopListScreen" component={ShopListScreen} />
       <Stack.Screen name="ShopScreen" component={ShopScreen} />
+      <Stack.Screen name="ShopDetail" component={ShopDetailScreen} />
     </Stack.Navigator>
   );
 };
