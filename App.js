@@ -45,7 +45,9 @@ import API from './app/api/categories';
 const App = () => {
   return (
     <Provider store={store}>
-      <ShopScreen />
+      <NavigationContainer>
+        <AuthNavigator />
+      </NavigationContainer>
     </Provider>
   );
 

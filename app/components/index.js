@@ -9,6 +9,7 @@ import Carousel from './Carousel';
 import Loading from './Loading';
 import HelperText from './HelperText';
 import Quantity from './Quantity';
+import SearchField from './SearchField';
 
 import ErrorMessage from './Form/ErrorMessage';
 
@@ -28,4 +29,5 @@ export {
   HelperText,
   Quantity,
   IoniconIcon,
+  SearchField,
 };
