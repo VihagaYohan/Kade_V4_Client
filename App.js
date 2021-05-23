@@ -44,18 +44,15 @@ import {useEffect} from 'react';
 import API from './app/api/categories';
 
 const App = () => {
-  return <MapScreen />;
+  //return <MapScreen />;
 
-  {
-    /*return (
-    
-     <Provider store={store}>
+ return (
+    <Provider store={store}>
       <NavigationContainer>
         <AuthNavigator />
       </NavigationContainer>
-    </Provider> 
-  );*/
-  }
+    </Provider>
+  ); 
 };
 
 export default App;

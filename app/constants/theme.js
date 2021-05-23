@@ -39,6 +39,9 @@ export const normalizeSize = size => {
   }
 };
 
-const appTheme = {SIZES, COLORS, normalizeSize};
+export const SHOP_MARKER =
+  'https://kade-bucket.s3.ap-south-1.amazonaws.com/Default-Images/default-shop.png';
+
+const appTheme = {SIZES, COLORS, SHOP_MARKER, normalizeSize};
 
 export default appTheme;
