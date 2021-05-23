@@ -30,6 +30,7 @@ import {useSelector, Provider} from 'react-redux';
 
 // screens
 import ShopScreen from './app/screens/ShopScreen';
+import MapScreen from './app/screens/MapScreen';
 
 // redux
 import configureStore from './app/store/store';
@@ -43,19 +44,15 @@ import {useEffect} from 'react';
 import API from './app/api/categories';
 
 const App = () => {
-  return (
+  //return <MapScreen />;
+
+ return (
     <Provider store={store}>
       <NavigationContainer>
         <AuthNavigator />
       </NavigationContainer>
     </Provider>
-  );
-
-  /*   return (
-     <NavigationContainer>
-      <AuthNavigator />
-    </NavigationContainer> 
-  ); */
+  ); 
 };
 
 export default App;
