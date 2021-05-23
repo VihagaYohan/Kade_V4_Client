@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, TextInput} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Image} from 'react-native';
 import axios from 'axios';
 
 // components
@@ -17,8 +17,15 @@ import {SIZES, COLORS, normalizeSize} from '../constants';
 
 // API
 import baseURL from '../api/baseURL';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
+
+// routes
+import routes from '../navigation/routes';
 
 const {width, height} = SIZES;
+
+const itemWidth = (width - normalizeSize(20) - normalizeSize(10)) / 2; // product item width
+const itemHeight = width * 0.6; // product item height
 
 const ShopScreen = ({navigation, route}) => {
   const {shopId} = route.params;
@@ -49,6 +56,75 @@ const ShopScreen = ({navigation, route}) => {
     }
   };
 
+  // product item component
+  const ProductItem = ({item, index}) => {
+    let stockStatus = undefined;
+    let stockCount = item.stockCount;
+
+    // checking stock count and status message to display
+    if (stockCount > 10) {
+      stockStatus = {
+        status: 'Available',
+        color: COLORS.green,
+      };
+    } else if ((stockCount = 0)) {
+      stockStatus = {
+        status: 'Unavailable',
+        color: COLORS.red,
+      };
+    } else {
+      stockStatus = {
+        status: `Only ${stockCount} left `,
+        color: COLORS.blue,
+      };
+    }
+    return (
+      <TouchableOpacity
+        style={{
+          width: itemWidth,
+          height: itemHeight,
+          marginRight: index % 2 == 0 ? normalizeSize(9) : 0,
+          marginBottom: normalizeSize(20),
+          overflow: 'hidden',
+        }}
+        onPress={() =>
+          navigation.navigate(routes.Product_Details, {
+            productId: item._id,
+          })
+        }>
+        {/* image container */}
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.prodcutImage}
+            source={{uri: item.photo}}
+            resizeMode="contain"
+          />
+        </View>
+
+        {/* content container */}
+        <View style={styles.productItemContentContainer}>
+          {/* product name */}
+          <AppText style={styles.productName} numberOfLines={2}>
+            {item.productName}
+          </AppText>
+
+          {/* stock count status */}
+          <AppText
+            style={{
+              color: stockStatus.color,
+              fontFamily: 'Poppins-Medium',
+              marginVertical: normalizeSize(5),
+            }}>
+            {stockStatus.status}
+          </AppText>
+
+          {/* price */}
+          <AppText style={styles.price}>Rs. {item.price.toFixed(2)}</AppText>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   useEffect(() => {
     getAllProducts(shopId);
     setLoading(false);
@@ -67,7 +143,12 @@ const ShopScreen = ({navigation, route}) => {
         {/* icon  container */}
         <View style={styles.backButtonContainer}>
           {/* icon */}
-          <Icon name="arrow-left" size={20} color={COLORS.secondary} />
+          <Icon
+            name="arrow-left"
+            size={20}
+            color={COLORS.secondary}
+            onPress={() => navigation.goBack()}
+          />
         </View>
 
         {/* search field container */}
@@ -85,6 +166,14 @@ const ShopScreen = ({navigation, route}) => {
           />
         </View>
       </View>
+
+      <FlatList
+        data={product}
+        numColumns={2}
+        keyExtractor={i => i._id}
+        showsVerticalScrollIndicator={false}
+        renderItem={ProductItem}
+      />
     </Container>
   );
 };
@@ -93,8 +182,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: normalizeSize(10),
-    borderWidth: 1,
   },
+  // section 1 styles
   section1: {
     flexDirection: 'row',
     width: '100%',
@@ -125,6 +214,34 @@ const styles = StyleSheet.create({
     width: '10%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  // product item styles
+  imageContainer: {
+    width: '100%',
+    height: '60%',
+    backgroundColor: COLORS.gray3,
+    overflow: 'hidden',
+    borderRadius: normalizeSize(10),
+  },
+  prodcutImage: {
+    width: '100%',
+    height: '100%',
+  },
+  productItemContentContainer: {
+    width: '100%',
+    height: '40%',
+  },
+  productName: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: normalizeSize(13),
+    color: COLORS.secondary,
+  },
+  price: {
+    color: COLORS.gray2,
+    fontFamily: 'Poppins-Regular',
+    fontSize: normalizeSize(13),
+    marginVertical: normalizeSize(5),
   },
 });
 
