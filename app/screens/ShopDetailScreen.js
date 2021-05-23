@@ -212,7 +212,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     width: '100%',
     height: '70%',
-    //paddingHorizontal: normalizeSize(10),
   },
   shopNameContainer: {
     borderBottomWidth: 1,
@@ -227,6 +226,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: normalizeSize(10),
     paddingVertical: normalizeSize(20),
+    alignItems: 'center',
   },
   iconContainer: {
     width: '15%',
