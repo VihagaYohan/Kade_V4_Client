@@ -35,13 +35,15 @@ import {addItemToCart} from '../store/actions/cart';
 import productAPI from '../api/products';
 import baseURL from '../api/baseURL';
 
+// routes
+import routes from '../navigation/routes';
+
 const {width, height} = SIZES;
 
 import axios from 'axios';
 
 const bannerHeight = height / 3; //product image container height
 const contentContainerHeight = height - bannerHeight; // content container height. this contain product name,shop name, shop image, product description..etc
-
 
 const ProductDetailsScreen = ({navigation, route}) => {
   const {productId, url} = route.params; // get product id
@@ -131,17 +133,23 @@ const ProductDetailsScreen = ({navigation, route}) => {
             </View>
 
             {/* shop image and name name */}
-            <View style={styles.shopContainer}>
-              <TouchableOpacity style={styles.shopImageContainer}>
+            <TouchableOpacity
+              style={styles.shopContainer}
+              onPress={() =>
+                navigation.navigate(routes.Shop_Screen, {
+                  shopId: product.shopId._id,
+                })
+              }>
+              <View style={styles.shopImageContainer}>
                 <Image
                   style={styles.shopImage}
                   source={{uri: product.shopId.photo}}
                 />
-              </TouchableOpacity>
+              </View>
 
               {/* shop name */}
               <AppText style={styles.shopName}>{product.shopId.name}</AppText>
-            </View>
+            </TouchableOpacity>
           </View>
 
           {/* product desctiption title */}

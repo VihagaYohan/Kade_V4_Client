@@ -5,11 +5,11 @@ import Icon from '../components/Icon';
 // constants
 import {COLORS, SIZES, normalizeSize} from '../constants';
 
-const AppTextInput = ({icon, iconName, iconColor, ...otherProps}) => {
+const AppTextInput = ({icon, iconName, iconColor, style, ...otherProps}) => {
   return (
     <View style={styles.container}>
       {icon === true ? <Icon name={iconName} color={iconColor} /> : null}
-      <TextInput style={styles.textInput} {...otherProps} />
+      <TextInput style={[styles.textInput, style]} {...otherProps} />
     </View>
   );
 };
@@ -17,8 +17,9 @@ const AppTextInput = ({icon, iconName, iconColor, ...otherProps}) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    borderWidth: 1,
+    
     width: '100%',
+    height: '100%',
   },
   textInput: {
     fontSize: normalizeSize(15),
