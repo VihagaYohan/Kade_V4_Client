@@ -28,7 +28,7 @@ const itemWidth = (width - normalizeSize(20) - normalizeSize(10)) / 2; // produc
 const itemHeight = width * 0.6; // product item height
 
 const ShopScreen = ({navigation, route}) => {
-  const {shopId} = route.params;
+  const {shopId, shopName} = route.params;
   const [loading, setLoading] = useState(false); // loading
   const [failed, setFailed] = useState(false); // failed to get data from backend
   const [product, setProduct] = useState(); // product
@@ -165,6 +165,35 @@ const ShopScreen = ({navigation, route}) => {
             style={styles.searchIcon}
           />
         </View>
+      </View>
+
+      {/* section 2 - contains shop name and right chevron to navigate to shop details screen */}
+      <View
+        style={{
+          flexDirection: 'row',
+          height: normalizeSize(60),
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <AppText
+          style={{
+            fontFamily: 'Poppins-SemiBold',
+            fontSize: normalizeSize(20),
+            color: COLORS.primary,
+          }}>
+          {shopName}
+        </AppText>
+
+        <Icon
+          name="chevron-right"
+          size={20}
+          color={COLORS.secondary}
+          onPress={() =>
+            navigation.navigate(routes.Shop_Detail, {
+              shopId: shopId,
+            })
+          }
+        />
       </View>
 
       <FlatList

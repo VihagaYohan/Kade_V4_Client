@@ -138,6 +138,7 @@ const ProductDetailsScreen = ({navigation, route}) => {
               onPress={() =>
                 navigation.navigate(routes.Shop_Screen, {
                   shopId: product.shopId._id,
+                  shopName: product.shopId.name,
                 })
               }>
               <View style={styles.shopImageContainer}>
