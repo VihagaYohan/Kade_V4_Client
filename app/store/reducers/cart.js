@@ -29,7 +29,7 @@ const initialState = {
     },
   ],
   cartTotal: 0,
-  shopId: undefined,
+  shopId: '60a3824852d58609d2c030e9',
 };
 
 export default (state = initialState, action) => {

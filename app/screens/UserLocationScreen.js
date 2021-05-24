@@ -54,7 +54,10 @@ const UserLocationScreen = ({navigation, route}) => {
       } = await Location.getCurrentPositionAsync();
       setLocation({latitude, longitude});
       setLoading(false);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      setLoading(true);
+    }
   };
 
   useEffect(() => {
@@ -65,17 +68,15 @@ const UserLocationScreen = ({navigation, route}) => {
   const reverseGeoCode = async location => {
     try {
       const result = await Location.reverseGeocodeAsync(location);
-      alert(JSON.stringify(result));
 
-      const name = result[0].name
-      const postalCode = result[0].postalCode
-      const streetName = result[0].street
-      const city = result[0].city
-      const country = result[0].country
-      console.log(result[0].postalCode)
+      const name = result[0].name;
+      const postalCode = result[0].postalCode;
+      const streetName = result[0].street;
+      const city = result[0].city;
+      const country = result[0].country;
+      console.log(result[0].postalCode);
 
-      setAddress(`${name}, ${postalCode}, ${streetName}, ${city}, ${country}`)
-
+      setAddress(`${name}, ${postalCode}, ${streetName}, ${city}, ${country}`);
     } catch (error) {
       console.log(error);
     }
