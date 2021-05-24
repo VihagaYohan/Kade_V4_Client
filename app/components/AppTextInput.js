@@ -17,12 +17,14 @@ const AppTextInput = ({icon, iconName, iconColor, style, ...otherProps}) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    
     width: '100%',
     height: '100%',
+    backgroundColor: 'red',
   },
   textInput: {
     fontSize: normalizeSize(15),
+    width: '100%',
+    borderWidth: 1,
   },
 });
 
