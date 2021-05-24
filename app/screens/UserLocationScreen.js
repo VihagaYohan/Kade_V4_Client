@@ -63,16 +63,31 @@ const UserLocationScreen = ({navigation, route}) => {
 
   // reverse geo-code - converts geo-codes (latitude and longitude) to address
   const reverseGeoCode = async location => {
-    const address = await Location.reverseGeocodeAsync(location);
-    console.log(address); // development purpose
-    setAddress(address);
+    try {
+      const result = await Location.reverseGeocodeAsync(location);
+      alert(JSON.stringify(result));
+
+      const name = result[0].name
+      const postalCode = result[0].postalCode
+      const streetName = result[0].street
+      const city = result[0].city
+      const country = result[0].country
+      console.log(result[0].postalCode)
+
+      setAddress(`${name}, ${postalCode}, ${streetName}, ${city}, ${country}`)
+
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (loading) return <Loading />;
 
   if (location == null) return <Loading />;
 
-  if (address == undefined) return <Loading />;
+  reverseGeoCode(location);
+
+  /*  if (address == undefined) return <Loading />; */
 
   return (
     <Container style={styles.container}>
@@ -110,7 +125,11 @@ const UserLocationScreen = ({navigation, route}) => {
       <AppButton
         title="Proceed"
         style={styles.proceedButton}
-        onPress={() => navigation.navigate(routes.Order_Screen)}
+        onPress={() =>
+          navigation.navigate(routes.Order_Screen, {
+            userAddress: address,
+          })
+        }
       />
     </Container>
   );

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 
 // componetns
@@ -9,10 +9,13 @@ import {SIZES, normalizeSize, COLORS} from '../constants/';
 
 const {width, height} = SIZES;
 
-const OrderScreen = () => {
+const OrderScreen = ({navigation, route}) => {
+  const {userAddress} = route.params;
+
   return (
     <Container style={styles.container}>
       <AppText>Order screen</AppText>
+      <AppText>{userAddress}</AppText>
     </Container>
   );
 };
