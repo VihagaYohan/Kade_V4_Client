@@ -6,8 +6,7 @@
  * @flow strict-local
  */
 import 'react-native-gesture-handler';
-import React from 'react';
-import type {Node} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -27,10 +26,12 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {useSelector, Provider} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // screens
 import ShopScreen from './app/screens/ShopScreen';
 import MapScreen from './app/screens/MapScreen';
+import CartScreen from './app/screens/CartScreen';
 
 // redux
 import configureStore from './app/store/store';
@@ -39,20 +40,44 @@ import store from './app/store/store';
 // navigators
 import AuthNavigator from './app/navigation/AuthNavigator';
 import AppNavigator from './app/navigation/AppNavigator';
-import {useEffect} from 'react';
 
 import API from './app/api/categories';
 
 const App = () => {
-  //return <MapScreen />;
-
- return (
+  /* return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <CartScreen />
+      </NavigationContainer>
+    </Provider>
+  ); */
+   
+   return (
     <Provider store={store}>
       <NavigationContainer>
         <AuthNavigator />
       </NavigationContainer>
     </Provider>
-  ); 
+  );  
+};
+
+const RenderNavigator = () => {
+  const [loginToken, setLoginToken] = useState(false);
+
+  const checkAsyncStorage = async () => {
+    try {
+      const valud = await AsyncStorage.getItem('@token');
+      if (!value) return;
+
+      const token = JSON.parse(value);
+      setLoginToken(true)
+
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+
 };
 
 export default App;
