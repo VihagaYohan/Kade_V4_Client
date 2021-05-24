@@ -27,6 +27,7 @@ import {
 import {NavigationContainer} from '@react-navigation/native';
 import {useSelector, Provider} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {StripeProvider} from '@stripe/stripe-react-native';
 
 // screens
 import ShopScreen from './app/screens/ShopScreen';
@@ -49,11 +50,13 @@ import API from './app/api/categories';
 const App = () => {
   /* return <UserLocation />; */
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <RenderNavigator />
-      </NavigationContainer>
-    </Provider>
+    <StripeProvider publishableKey="pk_test_51Iule3EHwMdMCEQY8bnkfR06hUdCabBYOS33DwSbeACbAO6baUHeGZ43YByINPW8fbuOsiu72ak6Tz5In5orNIfn00AqDCJuSF">
+      <Provider store={store}>
+        <NavigationContainer>
+          <RenderNavigator />
+        </NavigationContainer>
+      </Provider>
+    </StripeProvider>
   );
   /* return (
     <Provider store={store}>
