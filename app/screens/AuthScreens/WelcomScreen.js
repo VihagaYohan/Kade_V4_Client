@@ -64,22 +64,27 @@ const WelcomeScreen = ({navigation, route}) => {
     setVisible(false);
 
     const data = result.data;
-    const token = JSON.stringify(data.token);
+    const contactNo = JSON.stringify(data.user.phoneNumber);
+    const token = JSON.stringify(data.token); // token
+    const userId = JSON.stringify(data.user._id); // user ID
+    //const contactNo = JSON.stringify(data.user.phonetNumber); // user phone number
+    const loginValues = JSON.stringify({email, password}); // login values
     console.log(`token : ${token}`); // development purpose
+
+    console.log(`contact number : ${contactNo}`);
 
     // saving login token,user email address and the password on async-storage
     try {
       await AsyncStorage.setItem('token', token);
-      const loginValues = JSON.stringify({email,password})
-      console.log(loginValues)
-      await AsyncStorage.setItem('@login_info',loginValues)
-
-      dispatch(isUserLogged(true))
+      await AsyncStorage.setItem('@login_info', loginValues); // save login values in async storage
+      await AsyncStorage.setItem('@user_id', userId); // save user ID in async storage
+      await AsyncStorage.setItem('@user_phone', contactNo); // save user contact number in async storage
     } catch (error) {
       console.log(error);
     }
 
-    navigation.navigate(routes.App_Navigator);
+    dispatch(isUserLogged(true)); // update redux store as user has been logged-in
+    //navigation.navigate(routes.App_Navigator);
   };
 
   return (

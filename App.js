@@ -33,7 +33,7 @@ import ShopScreen from './app/screens/ShopScreen';
 import MapScreen from './app/screens/MapScreen';
 import CartScreen from './app/screens/CartScreen';
 import PermissionScreen from './app/screens/Permission';
-import UserLocation from './app/screens/UserLocationScreen'
+import UserLocation from './app/screens/UserLocationScreen';
 
 // redux
 import configureStore from './app/store/store';
@@ -47,14 +47,14 @@ import HomeNavigator from './app/navigation/HomeNavigator';
 import API from './app/api/categories';
 
 const App = () => {
-  return <UserLocation />;
-  /* return (
+  /* return <UserLocation />; */
+  return (
     <Provider store={store}>
       <NavigationContainer>
-        <HomeNavigator />
+        <RenderNavigator />
       </NavigationContainer>
     </Provider>
-  ); */
+  );
   /* return (
     <Provider store={store}>
       <NavigationContainer>
@@ -73,20 +73,17 @@ const App = () => {
 };
 
 const RenderNavigator = () => {
+  const data = useSelector(store => store.user);
   const [loginToken, setLoginToken] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const checkAsyncStorage = async () => {
-    try {
-      const valud = await AsyncStorage.getItem('@token');
-      if (!value) return;
+  console.log(data);
 
-      const token = JSON.parse(value);
-      setLoginToken(true);
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-  };
+  if (data.userLogged == true) {
+    return <HomeNavigator />;
+  } else {
+    return <AuthNavigator />;
+  }
 };
 
 export default App;
