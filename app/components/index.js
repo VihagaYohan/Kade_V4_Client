@@ -10,11 +10,13 @@ import Loading from './Loading';
 import HelperText from './HelperText';
 import Quantity from './Quantity';
 import SearchField from './SearchField';
-import CartItem from './CartItem'
+import CartItem from './CartItem';
 
 import ErrorMessage from './Form/ErrorMessage';
 
 import IoniconIcon from './Icons/Ionicon';
+
+import CustomTabBarButton from './ShoppingCustomButton';
 
 export {
   Container,
@@ -31,5 +33,6 @@ export {
   Quantity,
   IoniconIcon,
   SearchField,
-  CartItem
+  CartItem,
+  CustomTabBarButton,
 };

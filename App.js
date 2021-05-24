@@ -40,10 +40,18 @@ import store from './app/store/store';
 // navigators
 import AuthNavigator from './app/navigation/AuthNavigator';
 import AppNavigator from './app/navigation/AppNavigator';
+import HomeNavigator from './app/navigation/HomeNavigator';
 
 import API from './app/api/categories';
 
 const App = () => {
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <HomeNavigator />
+      </NavigationContainer>
+    </Provider>
+  );
   /* return (
     <Provider store={store}>
       <NavigationContainer>
@@ -51,14 +59,14 @@ const App = () => {
       </NavigationContainer>
     </Provider>
   ); */
-   
-   return (
+
+  /* return (
     <Provider store={store}>
       <NavigationContainer>
         <AuthNavigator />
       </NavigationContainer>
     </Provider>
-  );  
+  );   */
 };
 
 const RenderNavigator = () => {
@@ -70,14 +78,12 @@ const RenderNavigator = () => {
       if (!value) return;
 
       const token = JSON.parse(value);
-      setLoginToken(true)
-
+      setLoginToken(true);
     } catch (error) {
       console.log(error);
       return;
     }
   };
-
 };
 
 export default App;

@@ -37,7 +37,7 @@ import routes from '../navigation/routes';
 
 const {width, height} = SIZES; // device width and height
 const headerHeight = height * 0.1; // height of the header section
-const bottomHeight = height * 0.2; // height of the container that holds cart items
+const bottomHeight = height * 0.3; // height of the container that holds cart items
 const cartListContainerHeight = height - (headerHeight + bottomHeight); // height of the  bottom section which holds price and proceed button
 
 const CartScreen = ({navigation}) => {
