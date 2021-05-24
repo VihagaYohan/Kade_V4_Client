@@ -90,7 +90,7 @@ const OrderScreen = ({navigation, route}) => {
   const fetchPaymentIntent = async () => {
     try {
       const response = await axios.post(baseURL + '/api/payments/', {
-        amount: cartTotal,
+        amount: cartTotal*100,
       });
       console.log(response.data);
       setClientSecret(response.data.clientSecret);
@@ -235,7 +235,7 @@ const OrderScreen = ({navigation, route}) => {
         Rs.{cartTotal.toFixed(2)}
       </AppText>
 
-      <AppButton title="Checkout" />
+      <AppButton title="Checkout" onPress={() => openPaymentSheet()} />
     </Container>
   );
 };
