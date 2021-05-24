@@ -6,19 +6,29 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useSelector, useDispatch} from 'react-redux';
+import {presentPaymentSheet, useStripe} from '@stripe/stripe-react-native';
 import axios from 'axios';
 
 // componetns
-import {Container, AppText, HelperText, Loading, Icon} from '../components/';
+import {
+  Container,
+  AppText,
+  HelperText,
+  Loading,
+  Icon,
+  AppButton,
+} from '../components/';
 
 // constants
 import {SIZES, normalizeSize, COLORS} from '../constants/';
 
 // API
 import baseURL from '../api/baseURL';
+import routes from '../navigation/routes';
 
 const {width, height} = SIZES; // screen width and height
 const headerHeight = height * 0.05; // height of the header section
@@ -31,6 +41,8 @@ const OrderScreen = ({navigation, route}) => {
   const [loading, setLoading] = useState(false); // loading
   const [failed, setFailed] = useState(false); // failed to get data from backend
   const [user, setUser] = useState();
+  const [clientSecret, setClientSecret] = useState();
+  const {initPaymentSheet, presentPaymentSheet} = useStripe();
 
   const {cart} = useSelector(state => state);
   const cartItems = cart.cart;
@@ -74,15 +86,56 @@ const OrderScreen = ({navigation, route}) => {
     }
   };
 
+  // initialize payment sheet
+  const fetchPaymentIntent = async () => {
+    try {
+      const response = await axios.post(baseURL + '/api/payments/', {
+        amount: cartTotal,
+      });
+      console.log(response.data);
+      setClientSecret(response.data.clientSecret);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // initialize stripe paymetn operation
+  const initializePaymentSheet = async () => {
+    if (!clientSecret) {
+      return;
+    }
+    const {error} = await initPaymentSheet({
+      paymentIntentClientSecret: clientSecret,
+    });
+
+    console.log('sucess');
+    if (!error) {
+      setLoading(true);
+    }
+  };
+
+  // open stripe payment sheet
+  const openPaymentSheet = async () => {
+    const {error} = await presentPaymentSheet({clientSecret});
+
+    if (error) {
+      console.log('Error :' + error);
+    } else {
+      alert('Sucess :' + 'Your order is sucessed');
+    }
+  };
+
   // useEffect
   useEffect(() => {
     getUserId();
+    fetchPaymentIntent();
   }, []);
 
-  // find user
-  const getUser = async userid => {
-    setLoading(true);
-  };
+  useEffect(() => {
+    if (clientSecret) {
+      initializePaymentSheet();
+    }
+  }, [clientSecret]);
 
   // cart items component
   const CartItem = ({item, index}) => {
@@ -137,6 +190,7 @@ const OrderScreen = ({navigation, route}) => {
           name="arrow-left"
           size={normalizeSize(20)}
           color={COLORS.secondary}
+          onPress={() => navigation.navigate(routes.User_Location)}
         />
         <AppText style={styles.orderText}>Order</AppText>
         <View
@@ -163,13 +217,25 @@ const OrderScreen = ({navigation, route}) => {
         />
       </View>
 
+      <AppText style={styles.orderTotalText}>
+        {`Order Total (${cartItems.length} items) is `}
+      </AppText>
+
       <AppText
         style={[
-          styles.deliveryAddressTitle,
-          {marginVertical: normalizeSize(20)},
+          styles.orderTotalText,
+          {
+            marginTop: normalizeSize(10),
+            marginBottom: normalizeSize(5),
+            fontFamily: 'Poppins-SemiBold',
+            fontSize: normalizeSize(16),
+            color: COLORS.green,
+          },
         ]}>
-        {`Order Total is Rs. ${cartTotal.toFixed(2)}`}
+        Rs.{cartTotal.toFixed(2)}
       </AppText>
+
+      <AppButton title="Checkout" />
     </Container>
   );
 };
@@ -260,6 +326,15 @@ const styles = StyleSheet.create({
     fontSize: normalizeSize(13),
     color: COLORS.secondary,
     marginLeft: normalizeSize(5),
+  },
+
+  // order total line
+  orderTotalText: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: normalizeSize(14),
+    color: COLORS.secondary,
+    marginTop: normalizeSize(30),
+    textAlign: 'center',
   },
 });
 
