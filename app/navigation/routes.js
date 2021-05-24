@@ -6,6 +6,13 @@ export default Object.freeze({
   Shop_Detail: 'ShopDetail',
   Product_Listing: 'ProductListingScreen',
   Product_Details: 'ProductDetailsScreen',
+
+  // order navigator
+  Order_Navigator: 'OrderNavigator',
   Cart_Screen: 'CartScreen',
-  User_Location:"UserLocation"
+  User_Location: 'UserLocation',
+  Order_Screen: 'OrderScreen',
+
+  // Profile screen
+  Profile_Screen: 'ProfileScreen',
 });

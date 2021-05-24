@@ -4,8 +4,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 // screens
 import AppNavigator from './AppNavigator';
-import OrderScreen from '../screens//Profile/UserAccountScreen';
-import CartScreen from '../screens/CartScreen';
+import OrderNavigator from '../navigation/OrderNavigator'
+import ProfileScreen from '../screens/Profile/UserAccountScreen'
+//import CartScreen from '../screens/CartScreen';
 
 // components
 import {Icon, AppText, CustomTabBarButton} from '../components';
@@ -55,8 +56,8 @@ const BottomTabNavigator = () => {
       />
 
       <Tab.Screen
-        name="CartScreen"
-        component={CartScreen}
+        name="OrderNavigator"
+        component={OrderNavigator}
         options={{
           tabBarIcon: ({focused}) => (
             <Icon
@@ -70,8 +71,8 @@ const BottomTabNavigator = () => {
       />
 
       <Tab.Screen
-        name="OrderScreen"
-        component={OrderScreen}
+        name="ProfileScreen"
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={styles.iconContainer}>

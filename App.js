@@ -33,7 +33,7 @@ import ShopScreen from './app/screens/ShopScreen';
 import MapScreen from './app/screens/MapScreen';
 import CartScreen from './app/screens/CartScreen';
 import PermissionScreen from './app/screens/Permission';
-import UserLocation from './app/screens/UserLocationScreen'
+import UserLocation from './app/screens/UserLocationScreen';
 
 // redux
 import configureStore from './app/store/store';
@@ -47,14 +47,14 @@ import HomeNavigator from './app/navigation/HomeNavigator';
 import API from './app/api/categories';
 
 const App = () => {
-  return <UserLocation />;
-  /* return (
+  /* return <UserLocation />; */
+  return (
     <Provider store={store}>
       <NavigationContainer>
         <HomeNavigator />
       </NavigationContainer>
     </Provider>
-  ); */
+  );
   /* return (
     <Provider store={store}>
       <NavigationContainer>
