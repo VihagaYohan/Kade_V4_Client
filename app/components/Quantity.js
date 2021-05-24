@@ -66,28 +66,26 @@ const Quantity = ({style, quantity, getCount}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    //flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'blue',
   },
   button: {
     width: normalizeSize(20),
     height: normalizeSize(20),
-    borderWidth: 1,
+    borderWidth:1,
     borderRadius: normalizeSize(10),
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   buttonText: {
-    fontSize: normalizeSize(20),
+    fontSize: normalizeSize(14),
     fontWeight: 'bold',
     color: COLORS.primary,
+    textAlign: 'center',
   },
   count: {
     fontSize: normalizeSize(16),
     fontWeight: 'bold',
-    marginHorizontal: normalizeSize(10),
+    marginHorizontal: normalizeSize(5),
   },
 });
 

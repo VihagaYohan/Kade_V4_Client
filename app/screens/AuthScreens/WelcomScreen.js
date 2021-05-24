@@ -15,6 +15,7 @@ import {
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useSelector, useDispatch, useStore} from 'react-redux';
 
 // components
 import {Container, AppTextInput, AppText, ErrorMessage} from '../../components';
@@ -27,6 +28,10 @@ import {TextInput} from 'react-native-gesture-handler';
 // API
 import authAPI from '../../api/auth';
 
+// redux
+import {saveUserData, isUserLogged} from '../../store/actions/user';
+import store from '../../store/store';
+
 // form validation schema
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label('E-mail'),
@@ -35,6 +40,12 @@ const validationSchema = Yup.object().shape({
 
 const WelcomeScreen = ({navigation, route}) => {
   const [visible, setVisible] = useState(false); // sets modal visiblilty
+
+  // get user data from redux store
+  const userData = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
+  console.log(userData);
 
   // handle user login
   const handleLogin = async ({email, password}) => {
@@ -56,9 +67,14 @@ const WelcomeScreen = ({navigation, route}) => {
     const token = JSON.stringify(data.token);
     console.log(`token : ${token}`); // development purpose
 
-    // saving login token on async-storage
+    // saving login token,user email address and the password on async-storage
     try {
       await AsyncStorage.setItem('token', token);
+      const loginValues = JSON.stringify({email,password})
+      console.log(loginValues)
+      await AsyncStorage.setItem('@login_info',loginValues)
+
+      dispatch(isUserLogged(true))
     } catch (error) {
       console.log(error);
     }

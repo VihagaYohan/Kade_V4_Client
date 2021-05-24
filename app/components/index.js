@@ -10,6 +10,7 @@ import Loading from './Loading';
 import HelperText from './HelperText';
 import Quantity from './Quantity';
 import SearchField from './SearchField';
+import CartItem from './CartItem'
 
 import ErrorMessage from './Form/ErrorMessage';
 
@@ -30,4 +31,5 @@ export {
   Quantity,
   IoniconIcon,
   SearchField,
+  CartItem
 };
