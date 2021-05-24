@@ -73,36 +73,16 @@ const App = () => {
 };
 
 const RenderNavigator = () => {
+  const data = useSelector(store => store.user);
   const [loginToken, setLoginToken] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const checkAsyncStorage = async () => {
-    try {
-      const valud = await AsyncStorage.getItem('@token');
-      if (!value) return;
+  console.log(data);
 
-      const token = JSON.parse(value);
-      setLoginToken(false);
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-  };
-
-  useEffect(() => {
-    checkAsyncStorage();
-  }, []);
-
-  if (loginToken == null) {
-    return <AuthNavigator />;
+  if (data.userLogged == true) {
+    return <HomeNavigator />;
   } else {
-    checkAsyncStorage();
-
-    if (loginToken == false) {
-      return <AuthNavigator />;
-    } else {
-      <HomeNavigator />;
-    }
+    return <AuthNavigator />;
   }
 };
 

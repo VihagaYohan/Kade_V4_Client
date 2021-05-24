@@ -29,6 +29,9 @@ import {
 // constants
 import {SIZES, COLORS, normalizeSize} from '../constants';
 
+// routes
+import routes from '../navigation/routes';
+
 const {width, height} = SIZES; // device width and height
 
 const UserLocationScreen = ({navigation, route}) => {
@@ -58,14 +61,18 @@ const UserLocationScreen = ({navigation, route}) => {
     getPermission();
   }, []);
 
-  // get address from AppText component
-  const getAddress = address => {
+  // reverse geo-code - converts geo-codes (latitude and longitude) to address
+  const reverseGeoCode = async location => {
+    const address = await Location.reverseGeocodeAsync(location);
+    console.log(address); // development purpose
     setAddress(address);
   };
 
   if (loading) return <Loading />;
 
   if (location == null) return <Loading />;
+
+  if (address == undefined) return <Loading />;
 
   return (
     <Container style={styles.container}>
@@ -103,7 +110,7 @@ const UserLocationScreen = ({navigation, route}) => {
       <AppButton
         title="Proceed"
         style={styles.proceedButton}
-        onPress={() => alert('hello')}
+        onPress={() => navigation.navigate(routes.Order_Screen)}
       />
     </Container>
   );
@@ -116,7 +123,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mapContainer: {
-    height: '70%',
+    height: '50%',
     width: '100%',
   },
   map: {

@@ -64,7 +64,7 @@ const WelcomeScreen = ({navigation, route}) => {
     setVisible(false);
 
     const data = result.data;
-    const contactNo = JSON.stringify(data.user.phoneNumber)
+    const contactNo = JSON.stringify(data.user.phoneNumber);
     const token = JSON.stringify(data.token); // token
     const userId = JSON.stringify(data.user._id); // user ID
     //const contactNo = JSON.stringify(data.user.phonetNumber); // user phone number
@@ -79,13 +79,12 @@ const WelcomeScreen = ({navigation, route}) => {
       await AsyncStorage.setItem('@login_info', loginValues); // save login values in async storage
       await AsyncStorage.setItem('@user_id', userId); // save user ID in async storage
       await AsyncStorage.setItem('@user_phone', contactNo); // save user contact number in async storage
-
-      dispatch(isUserLogged(true)); // update redux store as user has been logged-in
     } catch (error) {
       console.log(error);
     }
 
-    navigation.navigate(routes.App_Navigator);
+    dispatch(isUserLogged(true)); // update redux store as user has been logged-in
+    //navigation.navigate(routes.App_Navigator);
   };
 
   return (
