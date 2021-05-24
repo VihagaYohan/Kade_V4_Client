@@ -29,7 +29,7 @@ import {
 import {SIZES, COLORS, normalizeSize} from '../constants';
 
 // Redux
-import {addItemToCart} from '../store/actions/cart';
+import {addItemToCart, orderShopId} from '../store/actions/cart';
 
 // API
 import productAPI from '../api/products';
@@ -192,7 +192,8 @@ const ProductDetailsScreen = ({navigation, route}) => {
           <View style={styles.addToCartContainer}>
             <TouchableOpacity
               style={styles.addToCartInnerContainer}
-              onPress={() =>
+              onPress={() => {
+                // save product item on cart items in redux store
                 dispatch(
                   addItemToCart({
                     productId: product._id,
@@ -202,8 +203,10 @@ const ProductDetailsScreen = ({navigation, route}) => {
                     unitPrice: product.price,
                     lineTotal: product.price,
                   }),
-                )
-              }>
+                );
+                // save shop ID in redux store
+                dispatch(orderShopId(product.shopId._id));
+              }}>
               <Icon name="shopping-cart" size={20} color={COLORS.primary} />
               <AppText style={styles.addToCartText}>Add To Cart</AppText>
             </TouchableOpacity>

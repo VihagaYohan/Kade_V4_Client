@@ -51,7 +51,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <HomeNavigator />
+        <RenderNavigator />
       </NavigationContainer>
     </Provider>
   );
@@ -74,6 +74,7 @@ const App = () => {
 
 const RenderNavigator = () => {
   const [loginToken, setLoginToken] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const checkAsyncStorage = async () => {
     try {
@@ -81,12 +82,28 @@ const RenderNavigator = () => {
       if (!value) return;
 
       const token = JSON.parse(value);
-      setLoginToken(true);
+      setLoginToken(false);
     } catch (error) {
       console.log(error);
       return;
     }
   };
+
+  useEffect(() => {
+    checkAsyncStorage();
+  }, []);
+
+  if (loginToken == null) {
+    return <AuthNavigator />;
+  } else {
+    checkAsyncStorage();
+
+    if (loginToken == false) {
+      return <AuthNavigator />;
+    } else {
+      <HomeNavigator />;
+    }
+  }
 };
 
 export default App;

@@ -74,7 +74,7 @@ const WelcomeScreen = ({navigation, route}) => {
       console.log(loginValues)
       await AsyncStorage.setItem('@login_info',loginValues)
 
-      dispatch(isUserLogged(true))
+      dispatch(isUserLogged(true)) // update redux store as user has been logged-in
     } catch (error) {
       console.log(error);
     }
