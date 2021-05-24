@@ -178,11 +178,6 @@ const CartScreen = ({navigation}) => {
             );
           }}
         />
-
-        <Button
-          title="navigate"
-          onPress={() => navigation.navigate(routes.User_Location)}
-        />
       </View>
 
       {/* bottom section - this contains total order cost and the proceed button */}
@@ -196,7 +191,7 @@ const CartScreen = ({navigation}) => {
         <View style={styles.proceedButtonContainer}>
           <TouchableOpacity
             style={styles.proceedButton}
-            onPress={() => navigation.navigate(routes.Forgot_Password)}>
+            onPress={() => navigation.navigate(routes.User_Location)}>
             <AppText style={styles.proceedButtonText}>Proceed</AppText>
           </TouchableOpacity>
         </View>
@@ -233,6 +228,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: normalizeSize(30),
     borderTopRightRadius: normalizeSize(30),
     overflow: 'hidden',
+    backgroundColor: COLORS.white,
   },
   title: {
     flex: 1,

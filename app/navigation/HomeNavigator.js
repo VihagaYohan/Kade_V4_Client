@@ -8,15 +8,13 @@ import OrderScreen from '../screens//Profile/UserAccountScreen';
 import CartScreen from '../screens/CartScreen';
 
 // components
-import {Icon, AppText,CustomTabBarButton} from '../components';
+import {Icon, AppText, CustomTabBarButton} from '../components';
 
 // constants
 import {normalizeSize, COLORS, SIZES} from '../constants';
 import {greaterThan} from 'react-native-reanimated';
 
 const Tab = createBottomTabNavigator();
-
-
 
 const BottomTabNavigator = () => {
   return (
@@ -29,6 +27,7 @@ const BottomTabNavigator = () => {
           backgroundColor: COLORS.white,
           //height: normalizeSize(90),
           paddingBottom: normalizeSize(10),
+          borderWidth: 0,
           ...styles.shadow,
         },
       }}>
