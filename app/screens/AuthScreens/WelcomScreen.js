@@ -19,6 +19,8 @@ import {useSelector, useDispatch, useStore} from 'react-redux';
 
 // components
 import {Container, AppTextInput, AppText, ErrorMessage} from '../../components';
+
+// routes
 import routes from '../../navigation/routes';
 
 // constants
@@ -199,7 +201,7 @@ const WelcomeScreen = ({navigation, route}) => {
             <View style={styles.forgotPasswordContainer}>
               <Text
                 style={styles.forgotPassword}
-                onPress={() => alert('forgot password clicked')}>
+                onPress={() => navigation.navigate(routes.Forgot_Password)}>
                 Forgot Password ?
               </Text>
             </View>

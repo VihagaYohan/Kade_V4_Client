@@ -19,12 +19,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     height: '100%',
-    backgroundColor: 'red',
   },
   textInput: {
     fontSize: normalizeSize(15),
     width: '100%',
-    borderWidth: 1,
+    color:COLORS.gray
   },
 });
 

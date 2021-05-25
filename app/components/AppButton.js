@@ -9,10 +9,10 @@ import {SIZES, COLORS, normalizeSize} from '../constants';
 
 const {width, height} = SIZES; // device width and height
 
-const AppButton = ({style, onPress, title, children, icon}) => {
+const AppButton = ({style, onPress, title, children, icon, buttonTextStyles}) => {
   return (
     <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
-      <AppText style={styles.title}>{title}</AppText>
+      <AppText style={[styles.title, buttonTextStyles]}>{title}</AppText>
     </TouchableOpacity>
   );
 };
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
 
     // shadow properties for android
-    elevation:10
+    elevation: 10,
   },
   title: {
     fontFamily: 'Poppins-SemiBold',
